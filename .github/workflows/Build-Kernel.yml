@@ -23,6 +23,7 @@ on:
           - 'edge'
           - 'vendor'
           - 'flippy'
+          - 'legacy'
 
 env:
   TZ: Asia/Shanghai

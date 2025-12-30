@@ -62,6 +62,20 @@ if [[ "${BRANCH}" =~ ^(flippy)$ ]]; then
   cp -f ${GITHUB_WORKSPACE}/patch/test/flippy/config/* config/kernel/
 fi
 
+# Add legacy BRANCH
+if [[ "${BRANCH}" =~ ^(legacy)$ ]]; then
+  echo "Adding legacy branch..."
+  sed -i '0,/case \$BRANCH in/{
+	/case \$BRANCH in/a\
+	legacy)\
+		declare -g KERNEL_MAJOR_MINOR="6.12"\
+		;;
+		}' config/sources/families/include/meson64_common.inc
+  cp -f ${GITHUB_WORKSPACE}/patch/N1/fix-n1-1.patch patch/kernel/archive/meson64-6.12/
+  cp -f ${GITHUB_WORKSPACE}/patch/N1/fix-n1-2.patch patch/kernel/archive/meson64-6.12/
+  cp -f ${GITHUB_WORKSPACE}/patch/test/legacy/config/* config/kernel/
+fi
+
 # T4 Patches
 echo "Copying T4 patches..."
 cp -f ${GITHUB_WORKSPACE}/patch/T4/fix-CPU-information-6.16.patch patch/kernel/archive/rockchip64-6.18/
