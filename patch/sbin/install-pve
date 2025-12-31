@@ -47,11 +47,11 @@ check_select_interface() {
   VALID_INDEX=()
   # 判断是否为桥接接口
   is_bridge_or_member() {
-      ip -d link show "$1" | grep -Eq "bridge|brport"
+      ip -d link show "${1}" | grep -Eq "bridge|brport"
   }
   # 判断是否为无线接口
   is_wireless() {
-    [[ -d "/sys/class/net/$1/wireless" ]] || [[ -e "/proc/net/wireless" && $(awk '/'"$1"':/ {print $1}' /proc/net/wireless) ]]
+    [[ -d "/sys/class/net/${1}/wireless" ]] || [[ -e "/proc/net/wireless" && $(awk '/'"${1}"':/ {print $1}' /proc/net/wireless) ]]
   }
   # 多默认接口
   if [[ $(echo "${NET_IF_LIST}" | wc -l) -gt 1 ]]; then
@@ -62,17 +62,17 @@ check_select_interface() {
       if is_bridge_or_member "${iface}"; then
         mark="[\033[91m x \033[0m]"
         color="\033[91m"
-        comment="[ 桥接接口，禁止使用 ]"
+        comment="[\033[91m 桥接接口，禁止使用 \033[0m]"
         selectable="no"
       elif is_wireless "${iface}"; then
         mark="[\033[91m x \033[0m]"
         color="\033[91m"
-        comment="[ 无线接口，禁止使用 ]"
+        comment="[\033[91m 无线接口，禁止使用 \033[0m]"
         selectable="no"
       else
         mark="[\033[92m ✓ \033[0m]"
         color="\033[92m"
-        comment=""
+        comment="[\033[92m 有线接口，可以使用 \033[0m]"
         selectable="yes"
       fi
       echo -e "${SN} [\033[96m ${i} \033[0m] -> [${color} ${iface} - ${ip_addr:-无 IP} \033[0m] ${mark} ${comment}"
