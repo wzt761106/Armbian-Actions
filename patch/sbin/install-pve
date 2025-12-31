@@ -62,20 +62,20 @@ check_select_interface() {
       if is_bridge_or_member "${iface}"; then
         mark="[\033[91m x \033[0m]"
         color="\033[91m"
-        comment="[\033[91m 桥接接口，禁止使用 \033[0m]"
+        comment="[\033[91m 桥接接口 \033[0m]"
         selectable="no"
       elif is_wireless "${iface}"; then
         mark="[\033[91m x \033[0m]"
         color="\033[91m"
-        comment="[\033[91m 无线接口，禁止使用 \033[0m]"
+        comment="[\033[91m 无线接口 \033[0m]"
         selectable="no"
       else
         mark="[\033[92m ✓ \033[0m]"
         color="\033[92m"
-        comment="[\033[92m 有线接口，可以使用 \033[0m]"
+        comment="[\033[92m 有线接口 \033[0m]"
         selectable="yes"
       fi
-      echo -e "${SN} [\033[96m ${i} \033[0m] -> [${color} ${iface} - ${ip_addr:-无 IP} \033[0m] ${mark} ${comment}"
+      echo -e "${SN} [\033[96m ${i} \033[0m] -> [${color} ${iface} - ${ip_addr:-无 IP} \033[0m] ${comment} ${mark}"
       # 只记录可用的接口编号和名称
       if [[ "${selectable}" == "yes" ]]; then
         VALID_IF_LIST+=("${iface}")
