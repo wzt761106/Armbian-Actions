@@ -235,5 +235,10 @@ jobs:
           ${{ env.KERNEL_VERSION }}-${{ env.LINUX_FAMILY }} 编译完成！
           耗时: ${HOURS} 时 ${MINUTES} 分 ${SECONDS} 秒
           "
-          echo "Sending message: ${MSG}"
-          curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}"
+          if [ -z "${{ secrets.TELEGRAM_TOKEN }}" ] || [ -z "${{ secrets.TELEGRAM_TO }}" ]; then
+            echo "Telegram secrets are incomplete, skipping notification."
+            exit 0
+          else
+            echo "Sending message: ${MSG}"
+            curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}"
+          fi

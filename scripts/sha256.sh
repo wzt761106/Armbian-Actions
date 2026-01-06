@@ -31,7 +31,7 @@ echo "🔍 正在提取内核文件 SHA256 信息"
 if fetch_and_extract | sort -t '-' -k2V -u > sha256.txt; then
     total=$(wc -l < sha256.txt | tr -d ' ')
     if [[ "${total}" -gt 0 ]]; then
-        echo "✅ 提取完成，共找到 ${total} 个内核版本，已保存到 sha256.txt"
+        echo "✅ 提取完成，共找到 ${total} 个内核文件，已保存到 sha256.txt"
     else
         echo "⚠️ 未找到任何匹配的内核文件！"
         exit 1
