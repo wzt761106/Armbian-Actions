@@ -232,13 +232,12 @@ jobs:
           MINUTES=$(( ( ${{ env.DURATION }} % 3600 ) / 60 ))
           SECONDS=$(( ${{ env.DURATION }} % 60 ))
           MSG="
-          ${{ env.KERNEL_VERSION }}-${{ env.LINUX_FAMILY }} 编译完成！
-          耗时: ${HOURS} 时 ${MINUTES} 分 ${SECONDS} 秒
-          "
-          if [ -z "${{ secrets.TELEGRAM_TOKEN }}" ] || [ -z "${{ secrets.TELEGRAM_TO }}" ]; then
+          🎉 *${{ env.KERNEL_VERSION }}-${{ env.LINUX_FAMILY }} 编译完成！*
+          🕒 _${HOURS} 时 ${MINUTES} 分 ${SECONDS} 秒_"
+          if [ -z "${{ secrets.TELEGRAM_BOT_TOKEN }}" ] || [ -z "${{ secrets.TELEGRAM_ID }}" ]; then
             echo "Telegram secrets are incomplete, skipping notification."
             exit 0
           else
             echo "Sending message: ${MSG}"
-            curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}"
+            curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN  }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_ID }}&text=${MSG}&parse_mode=Markdown" >/dev/null 2>&1
           fi
